@@ -1,0 +1,43 @@
+import java.util.List;
+
+/**
+ * Abstract class for a search problem, using states.
+ * Holds the start state and the goal state, estimation for each state (not mandatory) and also
+ * manages what sates can be reached from each state.
+ *
+ * @param <T> Type of state, depends on the problem.
+ */
+public abstract class Searchable<T> {
+    protected State<T> start;
+
+    /**
+     * Ctor.
+     */
+    protected Searchable() {
+        start = null;
+    }
+
+    /**
+     * @return The start state.
+     */
+    public State<T> getStart() {
+        return start;
+    }
+
+    public abstract boolean isGoal(State<T> state);
+
+    /**
+     * Gets a list of all the states that can be reached from state.
+     * The function creates all the new states and gives them the time of creation.
+     *
+     * @param state The father state.
+     * @return A list of all the children states from state.
+     */
+    public abstract List<State<T>> getChildStates(State<T> state);
+
+    /**
+     * @param state State to estimate
+     * @return An estimation for the given state
+     */
+    public abstract double getEstimationForState(State<T> state);
+}
