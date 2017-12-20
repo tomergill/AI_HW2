@@ -4,13 +4,16 @@ public class ReversiMapState {
     private char[][] map;
     private char next_turn;
 
-    public ReversiMapState(char[][] map, char next_turn) {
+    public ReversiMapState(char[][] map , char next_turn) {
         this.map = map;
         this.next_turn = next_turn;
     }
 
     public char[][] getMap() {
-        return map.clone();
+        char[][] copy = new char[map.length][];
+        for (int i = 0; i < map.length; ++i)
+            copy[i] = Arrays.copyOf(map[i], map[i].length);
+        return copy;
     }
 
     public int get_len_i() {return map == null ? -1 : map.length;}
@@ -48,8 +51,13 @@ public class ReversiMapState {
 
     @Override
     public String toString() {
+        StringBuilder builder = new StringBuilder("");
+        for (int i = 0; i < map.length; i++) {
+            builder.append(map[i]);
+            builder.append('\n');
+        }
         return "ReversiMapState{" +
-                "map=" + Arrays.toString(map) +
+                "map=\n" + builder.toString() +
                 '}';
     }
 }

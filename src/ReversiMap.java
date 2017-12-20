@@ -51,7 +51,7 @@ public class ReversiMap extends Searchable<ReversiMapState> {
         return 0;
     }
 
-    private boolean isNearColor(char c, int i, int j, char[][] map) {
+    private boolean isNearAnotherStone(char c, int i, int j, char[][] map) {
         int len_i = map.length, len_j = map[0].length;
         if ((c != white && c != black) || !isPointInMap(i, j, len_i, len_j))
             return false;
@@ -61,7 +61,7 @@ public class ReversiMap extends Searchable<ReversiMapState> {
                 if ((di == dj) && (dj == 0))
                     continue;
                 int ni = i + di, nj = j + dj;
-                if (isPointInMap(ni, nj, len_i, len_j) && map[ni][nj] == otherColor(c))
+                if (isPointInMap(ni, nj, len_i, len_j) && map[ni][nj] != empty)
                     return true;
             }
         }
@@ -75,9 +75,32 @@ public class ReversiMap extends Searchable<ReversiMapState> {
         int ni, nj, len_i = map.length, len_j = map[0].length, counter = 0;
         if ((c != white && c != black) || !isPointInMap(i, j, len_i, len_j))
             return -1;
-        while (isPointInMap((ni = i + di), (nj = j + dj), len_i, len_j) && map[ni][nj] == otherColor) {
-            map[ni][nj] = c;
+
+        //find if there is another stone in the same color in the direction
+        boolean found = false;
+        ni = i;
+        nj = j;
+        while (isPointInMap((ni = ni + di), (nj = nj + dj), len_i, len_j)) { //while stone at i j is opposite color
+            if (map[ni][nj] == c) {
+                found = true;
+                break;
+            }
+            else if (map[ni][nj] == empty)
+                return 0;  // found empty space in this direction, no flip in there
+        }
+        if (!found)
+            return 0;
+
+        /* return in the same direction and flip the stones */
+        // new coordinates
+        ni -= di;
+        nj -= dj;
+        while (ni != i || nj != j) {
+            map[ni][nj] = c;  // flip
             counter++;
+            // new coordinates
+            ni -= di;
+            nj -= dj;
         }
         return counter;
     }
@@ -85,7 +108,7 @@ public class ReversiMap extends Searchable<ReversiMapState> {
     private char[][] placement(char[][] map, int i, int j, char c) {
         if (map == null || (c != white && c != black) || !isPointInMap(i, j, map.length, map[0].length))
             return null;
-        if (map[i][j] != empty || !isNearColor(c, i, j, map))
+        if (map[i][j] != empty || !isNearAnotherStone(c, i, j, map))
             return null;
         map[i][j] = c;
         int[] ds = {-1, 0, 1};
@@ -93,8 +116,8 @@ public class ReversiMap extends Searchable<ReversiMapState> {
         for (int di : ds)
             for (int dj : ds)
                 sum += flipInDirection(map, i, j, c, di, dj);
-        if (sum == 0)
-            return null;
+//        if (sum == 0)
+//            return null;
         return map;
     }
 }
