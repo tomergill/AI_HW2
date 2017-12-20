@@ -10,10 +10,7 @@ public class ReversiMapState {
     }
 
     public char[][] getMap() {
-        char[][] copy = new char[map.length][];
-        for (int i = 0; i < map.length; ++i)
-            copy[i] = Arrays.copyOf(map[i], map[i].length);
-        return copy;
+        return CharMatrixCloner.clone(map);
     }
 
     public int get_len_i() {return map == null ? -1 : map.length;}

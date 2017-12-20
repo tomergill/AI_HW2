@@ -3,9 +3,9 @@ import java.util.OptionalDouble;
 import java.util.stream.DoubleStream;
 
 public class MinMaxAlgo {
-    public interface StateScore<T> {double score(State<T> current);}
+    public interface Heuristics<T> {double calculate(State<T> current);}
 
-    public static <T> State<T> chooseNextState(Searchable<T> problem, State<T> current, StateScore<T> score_calc,
+    public static <T> State<T> chooseNextState(Searchable<T> problem, State<T> current, Heuristics<T> score_calc,
                                                boolean isAFirst, int max_depth) {
         List<State<T>> children = problem.getChildStates(current);
         if (children == null)  // leaf state
@@ -14,7 +14,7 @@ public class MinMaxAlgo {
         int best_index = -1;
         for (int i = 0; i < children.size(); ++i) {
             /*
-             * calculates the score of each chile with the given calculation function, if A is first then chooses
+             * calculates the calculate of each chile with the given calculation function, if A is first then chooses
              * the minimal state from the the child's children. depth is max_depth - 2 because it's one level down
              * and also -1 to change to representation that starts with 0 (so max_depth = 3 goes 2 more levels than
              * this.
@@ -35,13 +35,13 @@ public class MinMaxAlgo {
         return children.get(best_index);
     }
 
-    private static <T> double getScore(Searchable<T> problem, State<T> current, StateScore<T> score_calc,
+    private static <T> double getScore(Searchable<T> problem, State<T> current, Heuristics<T> score_calc,
                                        boolean max, int depth) {
         if (depth == 0)
-            return score_calc.score(current);
+            return score_calc.calculate(current);
         List<State<T>> children = problem.getChildStates(current);
         if (children == null)  // leaf state
-            return score_calc.score(current);
+            return score_calc.calculate(current);
         DoubleStream stream = children.stream().mapToDouble(
                 state -> getScore(problem, state, score_calc, !max, depth - 1)
         );

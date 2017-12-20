@@ -1,20 +1,20 @@
 public class MinMaxGame<T, R> {
     private Game<T, R> problem;
     private State<T> current;
-    private MinMaxAlgo.StateScore score_calculator;
+    private MinMaxAlgo.Heuristics heuristics;
     private int numberOfTurnsToDevelop;
 
 
-    public MinMaxGame(Game<T, R> problem, MinMaxAlgo.StateScore score_calculator, int numberOfTurnsToDevelop) {
-        assert problem != null && score_calculator != null;
+    public MinMaxGame(Game<T, R> problem, MinMaxAlgo.Heuristics heuristics, int numberOfTurnsToDevelop) {
+        assert problem != null && heuristics != null;
         this.problem = problem;
-        this.score_calculator = score_calculator;
+        this.heuristics = heuristics;
         this.current = problem.getStart();
         this.numberOfTurnsToDevelop = numberOfTurnsToDevelop;
     }
 
     public void playOnePlayersTurn() {
-        current = MinMaxAlgo.chooseNextState(problem, current, score_calculator, true, numberOfTurnsToDevelop);
+        current = MinMaxAlgo.chooseNextState(problem, current, heuristics, true, numberOfTurnsToDevelop);
     }
 
     public State<T> getCurrent() {

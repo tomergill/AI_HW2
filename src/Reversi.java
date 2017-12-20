@@ -3,12 +3,21 @@ import java.util.List;
 
 public class Reversi extends Game<ReversiMapState, Character> {
     private char black, white, empty;
+    private char[][] starting_game_map;
+    private char starting_color;
 
     public Reversi(char[][] map, char black, char white, char empty, char starting_color) {
-        this.start = new State<ReversiMapState>(new ReversiMapState(map.clone(), starting_color));
+        this.starting_game_map = map;
         this.black = black;
         this.empty = empty;
         this.white = white;
+        this.starting_color = starting_color;
+    }
+
+    @Override
+    public State<ReversiMapState> getStart() {
+        return new State<ReversiMapState>(new ReversiMapState(CharMatrixCloner.clone(starting_game_map),
+                starting_color));
     }
 
     @Override

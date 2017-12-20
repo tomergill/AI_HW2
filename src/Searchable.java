@@ -8,21 +8,11 @@ import java.util.List;
  * @param <T> Type of state, depends on the problem.
  */
 public abstract class Searchable<T> {
-    protected State<T> start;
-
-    /**
-     * Ctor.
-     */
-    protected Searchable() {
-        start = null;
-    }
 
     /**
      * @return The start state.
      */
-    public State<T> getStart() {
-        return start;
-    }
+    public abstract State<T> getStart();
 
     public abstract boolean isGoal(State<T> state);
 
