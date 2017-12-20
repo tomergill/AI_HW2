@@ -1,5 +1,4 @@
 import java.io.IOException;
-import java.util.Arrays;
 
 public class java_ex2 {
 
@@ -27,7 +26,7 @@ public class java_ex2 {
             return;
         }
 
-        ReversiMap map = new ReversiMap(char_map, 'B', 'W', 'E', 'B');
+        Reversi map = new Reversi(char_map, 'B', 'W', 'E', 'B');
         System.out.println("start children:");
         for (State<ReversiMapState> s : map.getChildStates(map.getStart()))
             System.out.println("##\n" + s.toString());

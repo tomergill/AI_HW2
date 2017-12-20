@@ -1,10 +1,10 @@
 import java.util.LinkedList;
 import java.util.List;
 
-public class ReversiMap extends Searchable<ReversiMapState> {
+public class Reversi extends Game<ReversiMapState, Character> {
     private char black, white, empty;
 
-    public ReversiMap(char[][] map, char black, char white, char empty, char starting_color) {
+    public Reversi(char[][] map, char black, char white, char empty, char starting_color) {
         this.start = new State<ReversiMapState>(new ReversiMapState(map.clone(), starting_color));
         this.black = black;
         this.empty = empty;
@@ -119,5 +119,30 @@ public class ReversiMap extends Searchable<ReversiMapState> {
 //        if (sum == 0)
 //            return null;
         return map;
+    }
+
+    @Override
+    public boolean isFinished(State<ReversiMapState> currentState) {
+        for (char[] row : currentState.getState().getMap())
+            for (char tile : row)
+                if (tile == empty)
+                    return false;
+        return true;
+    }
+
+    @Override
+    public Character whichPlayerWon(State<ReversiMapState> current) {
+        int sum_b = 0, sum_w = 0;
+        for (char[] row : current.getState().getMap()) {
+            for (char tile : row) {
+                if (tile == white)
+                    ++sum_w;
+                else if (tile == black)
+                    ++sum_b;
+                else
+                    return null;
+            }
+        }
+        return sum_b >= sum_w ? black : white;
     }
 }
