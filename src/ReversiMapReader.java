@@ -10,6 +10,7 @@ public class ReversiMapReader {
         int i = -1;
         while ((line = reader.readLine()) != null)
             map[++i] = line.toCharArray();
+        reader.close();
         return i < 0 ? null : map;
     }
 }

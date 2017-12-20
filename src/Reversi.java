@@ -52,7 +52,7 @@ public class Reversi extends Game<ReversiMapState, Character> {
         return (i >= 0) && (j >= 0) && (i < len_i) && (j < len_j);
     }
 
-    private char otherColor(char c) {
+    public char otherColor(char c) {
         if (c == black)
             return white;
         else if (c == white)
@@ -152,6 +152,6 @@ public class Reversi extends Game<ReversiMapState, Character> {
                     return null;
             }
         }
-        return sum_b >= sum_w ? black : white;
+        return sum_b > sum_w ? black : sum_w > sum_b ? white : 0;
     }
 }

@@ -10,9 +10,9 @@ public class MinMaxAlgo {
         List<State<T>> children = problem.getChildStates(current);
         if (children == null)  // leaf state
             return current;
-        double best = Double.NEGATIVE_INFINITY;
-        int best_index = -1;
-        for (int i = 0; i < children.size(); ++i) {
+        double best = getScore(problem, children.get(0), score_calc, !isAFirst, max_depth - 2);
+        int best_index = 0;
+        for (int i = 1; i < children.size(); ++i) {
             /*
              * calculates the calculate of each chile with the given calculation function, if A is first then chooses
              * the minimal state from the the child's children. depth is max_depth - 2 because it's one level down

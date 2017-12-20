@@ -5,7 +5,7 @@ public class MinMaxGame<T, R> {
     private int numberOfTurnsToDevelop;
 
 
-    public MinMaxGame(Game<T, R> problem, MinMaxAlgo.Heuristics heuristics, int numberOfTurnsToDevelop) {
+    public MinMaxGame(Game<T, R> problem, MinMaxAlgo.Heuristics<T> heuristics, int numberOfTurnsToDevelop) {
         assert problem != null && heuristics != null;
         this.problem = problem;
         this.heuristics = heuristics;
