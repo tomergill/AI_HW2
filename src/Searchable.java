@@ -14,8 +14,6 @@ public abstract class Searchable<T> {
      */
     public abstract State<T> getStart();
 
-    public abstract boolean isGoal(State<T> state);
-
     /**
      * Gets a list of all the states that can be reached from state.
      * The function creates all the new states and gives them the time of creation.
@@ -24,10 +22,4 @@ public abstract class Searchable<T> {
      * @return A list of all the children states from state.
      */
     public abstract List<State<T>> getChildStates(State<T> state);
-
-    /**
-     * @param state State to estimate
-     * @return An estimation for the given state
-     */
-    public abstract double getEstimationForState(State<T> state);
 }
